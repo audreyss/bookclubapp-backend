@@ -5,8 +5,10 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 require('./models/connection')
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users');
+const protectedRouter = require('./routes/protected');
+const verifyJWT = require('./middleware/verifyJWT');
 
 var app = express();
 
@@ -21,5 +23,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+
+app.use(verifyJWT);
+app.use('/protected', protectedRouter);
 
 module.exports = app;
