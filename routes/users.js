@@ -54,8 +54,8 @@ router.post('/signup', validateSignUp, (req, res) => {
         newUser.save()
           .then(data => {
             let tokenData = { pseudo: data.pseudo }
-            const token = jwt.sign(tokenData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '30s' });
-            res.json({ token });
+            const token = jwt.sign(tokenData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' });
+            res.json({ token, pseudo: data.pseudo });
           });
       } else {
         // one user with same email: abort sign up
@@ -78,7 +78,7 @@ router.post("/signin", (req, res) => {
       if (data && bcrypt.compareSync(req.body.password, data.password)) {
         let tokenData = { pseudo: data.pseudo }
         const token = jwt.sign(tokenData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '30s' });
-        res.json({ token });
+        res.json({ token, pseudo: data.pseudo });
       } else {
         // No user found or wrong password
         res.status(401).json({ error: 'User not found or wrong password' })
