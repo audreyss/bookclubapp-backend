@@ -8,6 +8,7 @@ require('./models/connection')
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const protectedRouter = require('./routes/protected');
+const accountsRouter = require('./routes/accounts');
 const verifyJWT = require('./middleware/verifyJWT');
 
 var app = express();
@@ -26,5 +27,6 @@ app.use('/users', usersRouter);
 
 app.use(verifyJWT);
 app.use('/protected', protectedRouter);
+app.use('/accounts', accountsRouter);
 
 module.exports = app;

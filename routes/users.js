@@ -4,7 +4,6 @@ var router = express.Router();
 
 const User = require('../models/users');
 const { body, validationResult } = require("express-validator");
-const uid2 = require('uid2');
 const bcrypt = require('bcrypt');
 
 // validation for sign up: email, password and pseudo
@@ -53,7 +52,7 @@ router.post('/signup', validateSignUp, (req, res) => {
         // save new user to DB
         newUser.save()
           .then(data => {
-            let tokenData = { pseudo: data.pseudo }
+            let tokenData = { email: data.email }
             const token = jwt.sign(tokenData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' });
             res.json({ token, pseudo: data.pseudo });
           });
@@ -76,8 +75,8 @@ router.post("/signin", (req, res) => {
     .then(data => {
       // User with same email found: check if same hashed password
       if (data && bcrypt.compareSync(req.body.password, data.password)) {
-        let tokenData = { pseudo: data.pseudo }
-        const token = jwt.sign(tokenData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '30s' });
+        let tokenData = { email: data.email }
+        const token = jwt.sign(tokenData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' });
         res.json({ token, pseudo: data.pseudo });
       } else {
         // No user found or wrong password
