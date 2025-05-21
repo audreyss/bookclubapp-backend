@@ -12,31 +12,31 @@ const validatePassword = [
 ]
 
 const validatePseudo = [
-    body("pseudo")
+    body("newValue")
         .matches(/^[a-zA-Z0-9!@#$%^&*]+$/).withMessage("Le pseudo contient des caractères interdits."),
 ];
 
 const validateEmail = [
-    body("email")
+    body("newValue")
         .isEmail().withMessage("L'email n'est pas valide.")
         .normalizeEmail(),
 ];
 
 const validateNewPassword = [
-    body("newPassword")
+    body("newValue")
         .isLength({ min: 6 }).withMessage("Le mot de passe doit contenir au moins 6 caractères.")
         .matches(/^[a-zA-Z0-9!@#$%^&*]+$/).withMessage("Le mot de passe contient des caractères interdits."),
 ];
 
 
 router.put('/pseudo', [...validatePseudo, ...validatePassword], (req, res) => {
-    const newPseudo = req.body.pseudo;
+    const newPseudo = req.body.newValue;
     const password = req.body.password;
     const email = req.email;
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(400).json({ error: errors.array() });
+        return res.status(400).json({ error: errors.array()[0].msg });
     }
 
     User.findOne({ email })
@@ -53,13 +53,13 @@ router.put('/pseudo', [...validatePseudo, ...validatePassword], (req, res) => {
 });
 
 router.put('/email', [...validateEmail, ...validatePassword], (req, res) => {
-    const newEmail = req.body.email;
+    const newEmail = req.body.newValue;
     const password = req.body.password;
     const email = req.email;
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(400).json({ error: errors.array() });
+        return res.status(400).json({ error: errors.array()[0].msg });
     }
 
     User.findOne({ email })
@@ -80,13 +80,13 @@ router.put('/email', [...validateEmail, ...validatePassword], (req, res) => {
 });
 
 router.put('/password', [...validateNewPassword, ...validatePassword], (req, res) => {
-    const newPassword = req.body.newPassword;
+    const newPassword = req.body.newValue;
     const password = req.body.password;
     const email = req.email;
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(400).json({ error: errors.array() });
+        return res.status(400).json({ error: errors.array()[0].msg });
     }
 
     User.findOne({ email })
