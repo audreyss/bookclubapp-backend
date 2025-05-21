@@ -17,9 +17,9 @@ The idea of this project is to create a web app for bookclubs users. It is an ap
 ### App screenshots
 
 ### Roadmap
-- [ ] User account
-  - [ ] Creation
-  - [ ] Modification
+- [X] User account
+  - [X] Creation
+  - [X] Modification
 - [ ] Bookclub
   - [ ] Creation
   - [ ] Display
