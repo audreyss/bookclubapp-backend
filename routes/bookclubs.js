@@ -1,10 +1,13 @@
 var express = require('express');
 var router = express.Router();
 
+const uniqid = require('uniqid');
+const cloudinary = require('cloudinary').v2;
+const fs = require('fs');
+var mongoose = require('mongoose');
 const Bookclub = require('../models/bookclubs');
 
 router.post('/create', async (req, res) => {
-    //TODO : create bookclub in db
     const newBookclub = new Bookclub({
         name: req.body.name,
         description: req.body.desc,
@@ -15,14 +18,29 @@ router.post('/create', async (req, res) => {
     res.json({ bookclub: data });
 });
 
-router.post('/upload', (req, res) => {
+router.post('/upload', async (req, res) => {
     if (!req.files || Object.keys(req.files).length === 0) {
         return res.status(400).send('No files were uploaded.');
     }
 
-    //TODO : upload file on cloudinary +  update bookclub
+    const iconPath = `./tmp/${uniqid()}.jpg`;
+    const resultMove = await req.files.icon.mv(iconPath);
 
-    res.json({ result: true })
+    if (resultMove) {
+        return res.status(400).send(resultMove);
+    }
+    const resultCloudinary = await cloudinary.uploader.upload(iconPath);
+    fs.unlinkSync(iconPath);
+
+    const bookclubHeader = req.headers['bookclub'];
+    if (!bookclubHeader) return res.sendStatus(401);
+
+    const id = new mongoose.Types.ObjectId(bookclubHeader);
+    const data = await Bookclub.findOneAndUpdate({ _id: id }, { icon: resultCloudinary.secure_url }, {
+        new: true
+    });
+
+    res.json({ bookclub: data });
 });
 
 module.exports = router;
