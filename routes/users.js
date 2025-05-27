@@ -52,7 +52,7 @@ router.post('/signup', validateSignUp, (req, res) => {
         // save new user to DB
         newUser.save()
           .then(data => {
-            let tokenData = { email: data.email }
+            let tokenData = { email: data.email, userId: data._id }
             const token = jwt.sign(tokenData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' });
             res.json({ token, pseudo: data.pseudo });
           });
@@ -75,7 +75,7 @@ router.post("/signin", (req, res) => {
     .then(data => {
       // User with same email found: check if same hashed password
       if (data && bcrypt.compareSync(req.body.password, data.password)) {
-        let tokenData = { email: data.email }
+        let tokenData = { email: data.email, userId: data._id }
         const token = jwt.sign(tokenData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' });
         res.json({ token, pseudo: data.pseudo });
       } else {
