@@ -12,6 +12,7 @@ const usersRouter = require('./routes/users');
 const protectedRouter = require('./routes/protected');
 const accountsRouter = require('./routes/accounts');
 const bookclubsRouter = require('./routes/bookclubs');
+const followersRouter = require('./routes/followers');
 const verifyJWT = require('./middleware/verifyJWT');
 
 var app = express();
@@ -34,5 +35,6 @@ app.use(verifyJWT);
 app.use('/protected', protectedRouter);
 app.use('/accounts', accountsRouter);
 app.use('/bookclubs', bookclubsRouter);
+app.use('/followers', followersRouter);
 
 module.exports = app;

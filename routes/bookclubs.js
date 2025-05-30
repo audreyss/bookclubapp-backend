@@ -18,7 +18,7 @@ router.post('/create', async (req, res) => {
     res.json({ bookclub: data });
 });
 
-router.post('/upload', async (req, res) => {
+router.put('/upload', async (req, res) => {
     if (!req.files || Object.keys(req.files).length === 0) {
         return res.status(400).send('No files were uploaded.');
     }

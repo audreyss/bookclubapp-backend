@@ -21,7 +21,7 @@ The idea of this project is to create a web app for bookclubs users. It is an ap
   - [X] Creation
   - [X] Modification
 - [ ] Bookclub
-  - [ ] Creation
+  - [X] Creation
   - [ ] Display
   - [ ] Manage
 - [ ] Follow/unfollow bookclub
