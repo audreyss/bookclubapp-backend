@@ -11,6 +11,13 @@ router.get('/user', async (req, res) => {
     res.json({ followings: data });
 });
 
+router.get('/bookclub/:id', async (req, res) => {
+    const data = await Follower.find({
+        id_bookclub : req.params.id,
+    }).populate('id_user');
+    res.json({ followings: data });
+});
+
 router.post('/create', async (req, res) => {
     const newFollower = new Follower({
         id_user: req.userId,
