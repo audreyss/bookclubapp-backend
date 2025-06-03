@@ -14,7 +14,7 @@ router.get('/user', async (req, res) => {
 router.get('/bookclub/:id', async (req, res) => {
     const data = await Follower.find({
         id_bookclub : req.params.id,
-    }).populate('id_user');
+    }).populate('id_user', 'email pseudo');
     res.json({ followings: data });
 });
 
