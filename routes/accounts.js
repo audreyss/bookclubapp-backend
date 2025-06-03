@@ -4,6 +4,9 @@ const bcrypt = require('bcrypt');
 const { body, validationResult } = require("express-validator");
 const User = require('../models/users');
 
+const uniqid = require('uniqid');
+const cloudinary = require('cloudinary').v2;
+const fs = require('fs');
 var router = express.Router();
 
 const validatePassword = [
@@ -102,5 +105,37 @@ router.put('/password', [...validateNewPassword, ...validatePassword], (req, res
         })
         .catch(error => res.status(500).json({ error }));
 });
+
+router.get('/user', (req, res) => {
+    const email = req.email;
+    User.findOne({ email })
+        .then(data => {
+            const user = { pseudo: data.pseudo, email: data.email, icon: data.icon };
+            res.json({ user });
+        })
+        .catch((error) => res.status(500).json({ error }))
+});
+
+router.put('/uploadIcon', async (req, res) => {
+    if (!req.files || Object.keys(req.files).length === 0) {
+        return res.status(400).send('No files were uploaded.');
+    }
+
+    const iconPath = `./tmp/${uniqid()}.jpg`;
+    const resultMove = await req.files.icon.mv(iconPath);
+
+    if (resultMove) {
+        return res.status(400).send(resultMove);
+    }
+    const resultCloudinary = await cloudinary.uploader.upload(iconPath);
+    fs.unlinkSync(iconPath);
+
+    const data = await User.findOneAndUpdate({ email: req.email }, { icon: resultCloudinary.secure_url }, {
+        new: true
+    });
+
+    res.json({ url: data.icon });
+});
+
 
 module.exports = router;
