@@ -22,9 +22,15 @@ router.post('/create', async (req, res) => {
     const newFollower = new Follower({
         id_user: req.userId,
         id_bookclub: req.body.bookclubId,
-        role: 0,
+        role: req.body.role,
     })
     const data = await newFollower.save();
+    res.json({ follower: data });
+});
+
+router.delete('/delete', async (req, res) => {
+    const userId = req.body.userId ? req.body.userId : req.userId;
+    const data = await Follower.deleteOne({id_user: userId, id_bookclub: req.body.bookclubId})
     res.json({ follower: data });
 });
 
