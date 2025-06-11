@@ -25,6 +25,14 @@ router.post('/create', async (req, res) => {
     res.json({ bookclub: data });
 });
 
+router.put('/modify', async (req, res) => {
+    const { id, name, private, description} = req.body;
+    const data = await Bookclub.findOneAndUpdate({ _id: id }, { name, private, description }, {
+        new: true
+    });
+    res.json({ bookclub: data });
+});
+
 router.put('/upload', async (req, res) => {
     if (!req.files || Object.keys(req.files).length === 0) {
         return res.status(400).send('No files were uploaded.');
