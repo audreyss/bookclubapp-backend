@@ -17,9 +17,7 @@ const verifyJWT = require('./middleware/verifyJWT');
 
 var app = express();
 
-app.use(fileUpload({
-    createParentPath: true
-}));
+app.use(fileUpload());
 
 app.use(cors({
   origin: 'https://bookclubapp.vercel.app',
@@ -27,6 +25,8 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization', 'bookclub'],
   credentials: true,
 }));
+
+app.options('*', cors());
 
 // app.use(cors());
 
