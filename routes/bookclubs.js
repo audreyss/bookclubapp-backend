@@ -58,6 +58,7 @@ router.put('/upload', cors(), async (req, res) => {
     if (resultMove) {
         return res.status(400).send(resultMove);
     }
+
     const resultCloudinary = await cloudinary.uploader.upload(iconPath);
     fs.unlinkSync(iconPath);
 
