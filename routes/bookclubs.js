@@ -7,6 +7,11 @@ const fs = require('fs');
 var mongoose = require('mongoose');
 const Bookclub = require('../models/bookclubs');
 
+router.get('/all', async (req, res) => {
+    const bookclubs = await Bookclub.find();
+    res.json({ bookclubs });
+});
+
 router.get('/:id', async (req, res) => {
     const bookclubId = req.params.id;
     if (!bookclubId) return res.status(401);
