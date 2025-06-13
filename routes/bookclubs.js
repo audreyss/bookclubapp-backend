@@ -18,7 +18,7 @@ router.post('/create', async (req, res) => {
     const newBookclub = new Bookclub({
         name: req.body.name,
         description: req.body.desc,
-        private: !req.body.privacy,
+        private: req.body.privacy,
         creator: req.userId,
     })
     const data = await newBookclub.save();
