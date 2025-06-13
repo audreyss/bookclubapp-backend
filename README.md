@@ -20,11 +20,12 @@ The idea of this project is to create a web app for bookclubs users. It is an ap
 - [X] User account
   - [X] Creation
   - [X] Modification
-- [ ] Bookclub
+- [X] Bookclub
   - [X] Creation
-  - [ ] Display
-  - [ ] Manage
-- [ ] Follow/unfollow bookclub
+  - [X] Display
+  - [X] Manage
+- [X] Follow/unfollow bookclub
+- Search bookclubs
 - [ ] Suggestion themes
 - [ ] Suggestion books
 - [ ] Vote
