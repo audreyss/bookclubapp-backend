@@ -21,14 +21,14 @@ app.use(fileUpload({
     createParentPath: true
 }));
 
-// app.use(cors({
-//   origin: 'https://bookclubapp.vercel.app',
-//   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-//   allowedHeaders: ['Content-Type', 'Authorization', 'bookclub'],
-//   credentials: true,
-// }));
+app.use(cors({
+  origin: 'https://bookclubapp.vercel.app',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'bookclub'],
+  credentials: true,
+}));
 
-app.use(cors());
+// app.use(cors());
 
 app.use(logger('dev'));
 app.use(express.json());
