@@ -25,6 +25,12 @@ router.post('/create', async (req, res) => {
     res.json({ bookclub: data });
 });
 
+router.delete('/delete', async (req, res) => {
+    if (!req.body.bookclubId) return res.status(400).send('Missing bookclub Id');
+    const data = await Bookclub.findByIdAndDelete(req.body.bookclubId);
+    res.json({result: true})
+})
+
 router.put('/modify', async (req, res) => {
     const { id, name, private, description} = req.body;
     const data = await Bookclub.findOneAndUpdate({ _id: id }, { name, private, description }, {

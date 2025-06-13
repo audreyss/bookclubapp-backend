@@ -34,6 +34,11 @@ router.delete('/delete', async (req, res) => {
     res.json({ follower: data });
 });
 
+router.delete('/deleteBookclub', async (req, res) => {
+    const data = await Follower.deleteMany({ id_bookclub: req.body.bookclubId })
+    res.json({ result: true });
+});
+
 router.put('/deleteMod', async (req, res) => {
     const data = await Follower.findByIdAndUpdate(req.body.followId, { role: 2 });
     res.json({ follower: data });
