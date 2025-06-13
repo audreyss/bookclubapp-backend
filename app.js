@@ -17,10 +17,14 @@ const verifyJWT = require('./middleware/verifyJWT');
 
 var app = express();
 
+app.use(cors({
+  origin: 'https://bookclubapp.vercel.app',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true
+}));
 app.use(fileUpload({
     createParentPath: true
 }));
-app.use(cors());
 
 app.use(logger('dev'));
 app.use(express.json());
