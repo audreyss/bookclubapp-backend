@@ -52,7 +52,7 @@ router.put('/upload', cors(), async (req, res) => {
         return res.status(400).send('No files were uploaded.');
     }
 
-    const iconPath = `./tmp/${uniqid()}.jpg`;
+    const iconPath = `/tmp/${uniqid()}.jpg`;
     const resultMove = await req.files.icon.mv(iconPath);
 
     if (resultMove) {
