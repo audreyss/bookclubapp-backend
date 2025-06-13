@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
+const cors = require('cors');
 const uniqid = require('uniqid');
 const cloudinary = require('cloudinary').v2;
 const fs = require('fs');
@@ -44,7 +45,9 @@ router.put('/modify', async (req, res) => {
     res.json({ bookclub: data });
 });
 
-router.put('/upload', async (req, res) => {
+router.options('/upload', cors());
+
+router.put('/upload', cors(), async (req, res) => {
     if (!req.files || Object.keys(req.files).length === 0) {
         return res.status(400).send('No files were uploaded.');
     }
